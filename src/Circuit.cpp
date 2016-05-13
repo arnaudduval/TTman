@@ -42,6 +42,6 @@ Circuit ReadCircuit(std::string const &fileName)
 
 int main()
 {
-  Circuit myCircuit;
+  Circuit myCircuit = ReadCircuit("data/circuit.txt");
   return 0;
 }
