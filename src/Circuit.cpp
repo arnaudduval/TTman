@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <GPSPoint.h>
+#include <GPXFile.h>
 
 
 
@@ -42,11 +43,20 @@ Circuit ReadCircuit(std::string const &fileName)
 
 int main()
 {
-  Circuit myCircuit = ReadCircuit("data/circuit.txt");
+  /*Circuit myCircuit = ReadCircuit("data/circuit.txt");
   GPSPoint Paris{48.853, 2.35};
   GPSPoint Lyon{45.764043,4.835659};
   std::cout << "Distance Paris-Lyon : " << Distance(Paris, Lyon) << "\n";
-  std::cout << "Cap Paris-Lyon : " << Azimuth(Paris, Lyon) << "\n";
+  std::cout << "Cap Paris-Lyon : " << Azimuth(Paris, Lyon) << "\n";*/
+  
+  
+  std::string fileName = "/home/arnaud/CP5.gpx";
+  GPXFile gpx(fileName);
+  
+  
+  
+  
+  
 
   return 0;
 }
