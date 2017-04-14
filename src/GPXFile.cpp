@@ -23,11 +23,20 @@ GPXFile::GPXFile(std::string fileName)
       std::cout << nodeName << std::endl;
       if(nodeName == "gpx")     // root node is gpx. Let's start here
       {
-        xmlpp::Node::NodeList list = pNode->get_children();
+        auto list = pNode->get_children();
         for(auto iter = list.begin() ; iter != list.end() ; ++iter)
         {
           pNode = dynamic_cast<const xmlpp::Node*>(*iter);
-          std::cout << pNode->get_name() << std::endl;
+          std::cout << "pNode->get_name() : " << pNode->get_name() << std::endl;
+          // Read metadata
+          if(pNode->get_name() == "metadata")
+            ReadMetadataXMLNode(pNode);
+          // Read track(s)
+          if(pNode->get_name() == "trk")
+          {
+            GPXtrk trk(pNode);
+            tracks.push_back(trk);
+          }
         }
       }
       
@@ -35,7 +44,7 @@ GPXFile::GPXFile(std::string fileName)
     }
     else
     {
-      std::cout << "Probelem d'initialisation du parser\n";
+      std::cout << "Problem at parser initialisation\n";
     }
     
     
@@ -44,5 +53,49 @@ GPXFile::GPXFile(std::string fileName)
   {
     std::cerr << "Exception caught: " << e.what() << std::endl;
   }
-  
 }
+
+void GPXFile::ReadMetadataXMLNode(const xmlpp::Node* pNode)
+{
+  auto list = pNode->get_children();
+  for(auto iter = list.begin() ; iter != list.end() ; ++iter)
+  {
+    auto pChildNode = dynamic_cast<const xmlpp::Node*>(*iter);
+    std::string metadataName = pChildNode->get_name();
+    std::string metadataValue;
+    if(pChildNode->get_children().size() != 0)
+       metadataValue = ((xmlpp::TextNode*)(*((pChildNode->get_children()).begin())))->get_content();
+    std::cout << "metadata : " << metadataName << "\t" << metadataValue << std::endl;    
+    Metadata m = std::make_tuple(metadataName, metadataValue);
+    metadata.push_back(m);
+  }
+}
+
+GPXtrk::GPXtrk(const xmlpp::Node* pNode)
+{
+  std::cout << "Contructor GPXtrk::GPXtrk(const xmlpp::Node*)" << std::endl;
+  auto list = pNode->get_children();
+  for(auto iter = list.begin() ; iter != list.end() ; ++iter)
+  {
+    pNode = dynamic_cast<const xmlpp::Node*>(*iter);
+    std::cout << "pNode->get_name() : " << pNode->get_name() << std::endl;
+    // Read name
+    if(pNode->get_name() == "name")
+      ReadNameXML(pNode);
+    /*// Read metadata
+    if(pNode->get_name() == "metadata")
+      ReadMetadataXMLNode(pNode);
+    if(pNode->get_name() == "trk")
+    {
+      GPXtrk trk(pNode);
+      tracks.push_back(trk);
+    }*/
+  }
+}
+
+void GPXtrk::ReadNameXML(const xmlpp::Node* pNode)
+{
+  if(pNode->get_children().size() != 0)
+    name = ((xmlpp::TextNode*)(*(pNode->get_children().begin())))->get_content();
+}
+
