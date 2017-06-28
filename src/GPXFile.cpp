@@ -85,11 +85,13 @@ GPXtrk::GPXtrk(const xmlpp::Node* pNode)
     /*// Read metadata
     if(pNode->get_name() == "metadata")
       ReadMetadataXMLNode(pNode);
-    if(pNode->get_name() == "trk")
+    */
+    // Read track segment
+    if(pNode->get_name() == "trkseg")
     {
-      GPXtrk trk(pNode);
-      tracks.push_back(trk);
-    }*/
+      GPXtrkseg trkseg(pNode);
+      trksegs.push_back(trkseg);
+    }
   }
 }
 
@@ -97,5 +99,12 @@ void GPXtrk::ReadNameXML(const xmlpp::Node* pNode)
 {
   if(pNode->get_children().size() != 0)
     name = ((xmlpp::TextNode*)(*(pNode->get_children().begin())))->get_content();
+}
+
+GPXtrkseg::GPXtrkseg(const xmlpp::Node* pNode)
+{
+  std::cout << "Constructor GPXtrkseg::GPXtrkseg(const xmlpp::Node*)" << std::endl;
+  
+  
 }
 

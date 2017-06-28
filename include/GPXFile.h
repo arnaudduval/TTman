@@ -9,38 +9,41 @@
 // A metadata is a string value associated to a key
 using Metadata = std::tuple<std::string, std::string> ;
 
-struct GPXNodeWithMetadata
-{
-  std
-}
 
 
-
-/*
 // Structure defining a GPX waypoint
 struct GPXwpt
 {
-    std::list< std::tuple<std::string, std::string> > metadata;
+    std::list< Metadata > metadata;
 };
 
+
+/*
 // Structure defining a GPX route
 struct GPXrte
 {
     std::list< std::tuple<std::string, std::string> > metadata;
     std::list<GPXwpt> rtept;
-};
+}; */
+
+
+
+using GPXtrkpt = GPXwpt;
 
 struct GPXtrkseg
 {
-    std::list<GPXwpt> trkpt;
+    std::list<GPXtrkpt> trkpt;
+    
+    GPXtrkseg(const xmlpp::Node*);
 };
-*/
+
+
 // Structure defining a GPX track
 struct GPXtrk
 {
     std::list<Metadata> metadata;
     std::string name;
-    //std::list<GPXtrkseg> trkseg;
+    std::list<GPXtrkseg> trksegs;
     
     GPXtrk(const xmlpp::Node*);
     void ReadNameXML(const xmlpp::Node*);
