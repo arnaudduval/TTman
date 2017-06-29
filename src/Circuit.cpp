@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
   // parse arguments
   if(argc > 1)
   {
-    if (argv[1] == "--readgpx")
+    if (std::string(argv[1]) == "--readgpx")
     {
       if(argc >= 3)
       {
