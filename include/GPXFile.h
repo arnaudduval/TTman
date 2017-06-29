@@ -7,6 +7,7 @@
 #include <libxml++/libxml++.h>
 #include <GPSPoint.h>
 
+
 // A metadata is a string value associated to a key
 using Metadata = std::tuple<std::string, std::string> ;
 
@@ -64,6 +65,7 @@ struct GPXFile
     //std::list<GPXrte> routes;
     std::list<GPXtrk> tracks;
     void ReadMetadataXMLNode(const xmlpp::Node*);
+    void MakeLog(const std::string&);
 };
 
 

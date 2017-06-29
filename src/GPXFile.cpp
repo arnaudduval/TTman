@@ -1,6 +1,7 @@
 #include <GPXFile.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
+#include <fstream>
 
 
 
@@ -67,6 +68,13 @@ void GPXFile::ReadMetadataXMLNode(const xmlpp::Node* pNode)
     metadata.push_back(m);
   }
 }
+
+void GPXFile::MakeLog(const std::string& filePath)
+{
+ std::ofstream fout(filePath); 
+  
+}
+
 
 GPXtrk::GPXtrk(const xmlpp::Node* pNode)
 {

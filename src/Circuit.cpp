@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
       {
         std::string filePath(argv[2]);
         GPXFile gpx(filePath);
+        gpx.MakeLog("ReadGPX.log");
       }
     }
     
