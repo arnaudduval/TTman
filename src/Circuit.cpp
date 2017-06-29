@@ -41,7 +41,7 @@ Circuit ReadCircuit(std::string const &fileName)
 }
 
 
-int main()
+int main(int argc, char *argv[])
 {
   /*Circuit myCircuit = ReadCircuit("data/circuit.txt");
   GPSPoint Paris{48.853, 2.35};
@@ -49,13 +49,20 @@ int main()
   std::cout << "Distance Paris-Lyon : " << Distance(Paris, Lyon) << "\n";
   std::cout << "Cap Paris-Lyon : " << Azimuth(Paris, Lyon) << "\n";*/
   
-  
-  std::string fileName = "/home/arnaud/CP5.gpx";
-  GPXFile gpx(fileName);
-  
-  
-  
-  
+  // parse arguments
+  if(argc > 1)
+  {
+    if (argv[1] == "--readgpx")
+    {
+      if(argc >= 3)
+      {
+        std::string filePath(argv[2]);
+        GPXFile gpx(filePath);
+      }
+    }
+    
+  }
+    
   
 
   return 0;
