@@ -104,7 +104,50 @@ void GPXtrk::ReadNameXML(const xmlpp::Node* pNode)
 GPXtrkseg::GPXtrkseg(const xmlpp::Node* pNode)
 {
   std::cout << "Constructor GPXtrkseg::GPXtrkseg(const xmlpp::Node*)" << std::endl;
-  
-  
+  auto list = pNode->get_children();
+  for(auto iter = list.begin() ; iter != list.end() ; ++iter)
+  {
+    pNode = dynamic_cast<const xmlpp::Node*>(*iter);
+    std::cout << "pNode->get_name() : " << pNode->get_name() << std::endl;
+    if(pNode->get_name() == "trkpt")
+    {
+      GPXtrkpt trkpt(pNode);
+      trkpts.push_back(trkpt);
+    }
+  }
+}
+
+GPXwpt::GPXwpt(const xmlpp::Node* pNode)
+{
+  std::cout << "Constructor GPXwpt::GPXwpt(const xmlpp::Node*) << std::endl";
+  // Read node attributes : latitude and longitude
+  auto attributes = dynamic_cast<const xmlpp::Element*>(pNode)->get_attributes();
+  for(auto iAttribute = attributes.begin() ; iAttribute != attributes.end() ; ++iAttribute)
+  {
+    const xmlpp::Attribute* attribute = *iAttribute;
+    if(attribute->get_name() == "lat")
+    {
+      coords.lat = std::stod(attribute->get_value());
+    }
+    else if(attribute->get_name() == "lon")
+    {
+      coords.lon = std::stod(attribute->get_value());      
+    }
+  }
+  // Read nodes children
+  auto list = pNode->get_children();
+  for(auto iter = list.begin() ; iter != list.end() ; ++iter)
+  {
+    pNode = dynamic_cast<const xmlpp::Node*>(*iter);
+    std::cout << "pNode->get_name() : " << pNode->get_name() << std::endl;
+    std::string singleValue;
+    if(pNode->get_children().size() != 0)
+       singleValue = ((xmlpp::TextNode*)(*((pNode->get_children()).begin())))->get_content();
+    if(pNode->get_name() == "ele")
+    {
+      elevation = std::stod(singleValue);
+      std::cout << "elevation : " << elevation << "\n";
+    }
+  }
 }
 
