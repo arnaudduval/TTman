@@ -53,6 +53,7 @@ struct GPXtrk
     
     GPXtrk(const xmlpp::Node*);
     void ReadNameXML(const xmlpp::Node*);
+    void MakeLog(std::ostream&, const std::string);
 };
 
 

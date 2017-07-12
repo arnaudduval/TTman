@@ -80,11 +80,29 @@ void GPXFile::MakeLog(const std::string& filePath)
     fout << "  " << std::get<0>(*imetadata) << "\t" << std::get<1>(*imetadata) << "\n";
   }
   
+  fout << "This file contains " << tracks.size() << " track(s) :\n";
+  for (auto itrack = tracks.begin() ; itrack != tracks.end() ; ++itrack)
+  {
+    std::string prefix = "  ";
+    (*itrack).MakeLog(fout, prefix);
+  }
+}
+
+void GPXtrk::MakeLog(std::ostream& fout, const std::string prefix)
+{
+  fout << prefix << "Track : " << name << "\n";
+  fout << prefix << "This track has " << metadata.size() << " metadata(s) :\n";
+  for (auto imetadata = metadata.begin() ; imetadata != metadata.end() ; ++imetadata)
+  {
+    fout << prefix << "  " << std::get<0>(*imetadata) << "\t" << std::get<1>(*imetadata) << "\n";
+  }
+  
+  fout << prefix << "This track contains " << trksegs.size() << " segments :\n";
   
 }
 
 
-GPXtrk::GPXtrk(const xmlpp::Node* pNode)
+GPXtrk::GPXtrk(const xmlpp::Node* pNode) 
 {
   auto list = pNode->get_children();
   for(auto iter = list.begin() ; iter != list.end() ; ++iter)
