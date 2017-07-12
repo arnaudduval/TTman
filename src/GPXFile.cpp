@@ -63,9 +63,11 @@ void GPXFile::ReadMetadataXMLNode(const xmlpp::Node* pNode)
     std::string metadataName = pChildNode->get_name();
     std::string metadataValue;
     if(pChildNode->get_children().size() != 0)
-       metadataValue = ((xmlpp::TextNode*)(*((pChildNode->get_children()).begin())))->get_content();
-    Metadata m = std::make_tuple(metadataName, metadataValue);
-    metadata.push_back(m);
+    {
+      metadataValue = ((xmlpp::TextNode*)(*((pChildNode->get_children()).begin())))->get_content();
+      Metadata m = std::make_tuple(metadataName, metadataValue);
+      metadata.push_back(m);
+    }
   }
 }
 
