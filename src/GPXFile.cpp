@@ -71,7 +71,13 @@ void GPXFile::ReadMetadataXMLNode(const xmlpp::Node* pNode)
 
 void GPXFile::MakeLog(const std::string& filePath)
 {
- std::ofstream fout(filePath); 
+  std::ofstream fout(filePath); 
+  fout << "This file has " << metadata.size() << " metadata(s) :\n";
+  for (auto imetadata = metadata.begin() ; imetadata != metadata.end() ; ++imetadata)
+  {
+    fout << "  " << std::get<0>(*imetadata) << "\t" << std::get<1>(*imetadata) << "\n";
+  }
+  
   
 }
 
