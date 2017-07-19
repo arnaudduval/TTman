@@ -41,6 +41,7 @@ struct GPXtrkseg
     std::list<GPXtrkpt> trkpts;
     
     GPXtrkseg(const xmlpp::Node*);
+    void MakeLog(std::ostream&, const std::string);
 };
 
 

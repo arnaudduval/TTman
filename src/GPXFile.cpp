@@ -98,7 +98,19 @@ void GPXtrk::MakeLog(std::ostream& fout, const std::string prefix)
   }
   
   fout << prefix << "This track contains " << trksegs.size() << " segments :\n";
-  
+  for(auto itrkseg = trksegs.begin() ; itrkseg != trksegs.end() ; ++itrkseg)
+  {
+    (*itrkseg).MakeLog(fout, prefix + "  ");
+  }
+}
+
+void GPXtrkseg::MakeLog(std::ostream& fout, const std::string prefix)
+{
+  fout << prefix << "This track segment contains " << trkpts.size() << " points :\n";
+  for(auto ipt = trkpts.begin() ; ipt != trkpts.end() ; ++ipt)
+  {
+    
+  }
 }
 
 
