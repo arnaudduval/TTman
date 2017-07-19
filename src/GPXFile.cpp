@@ -109,7 +109,7 @@ void GPXtrkseg::MakeLog(std::ostream& fout, const std::string prefix)
   fout << prefix << "This track segment contains " << trkpts.size() << " points :\n";
   for(auto ipt = trkpts.begin() ; ipt != trkpts.end() ; ++ipt)
   {
-    
+    fout << prefix << "  " << (*ipt).timestamp << "  " << (*ipt).coords.lat << "  " << (*ipt).coords.lon << "  " << (*ipt).elevation << "\n";
   }
 }
 
@@ -183,6 +183,10 @@ GPXwpt::GPXwpt(const xmlpp::Node* pNode)
     if(pNode->get_name() == "ele")
     {
       elevation = std::stod(singleValue);
+    }
+    else if(pNode->get_name() == "time")
+    {
+      timestamp = singleValue;
     }
   }
 }
