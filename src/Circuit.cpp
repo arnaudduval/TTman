@@ -4,6 +4,28 @@
 #include <stdexcept>
 
 
+Point::Point(const GPSPoint& c, const double& e)
+{
+  alt = e;
+  coords = c;
+}
+
+
+
+Circuit::Circuit(const GPXFile& f)
+{
+  for(auto itrack = f.tracks.begin() ; itrack != f.tracks.end() ; ++itrack)
+  {
+    for(auto isegment = (*itrack).trksegs.begin() ; isegment != (*itrack).trksegs.end() ; ++isegment)
+    {
+      for(auto ipoint = (*isegment).trkpts.begin() ; ipoint != (*isegment).trkpts.end() ; ++ipoint)
+      {
+        push_back(Point((*ipoint).coords, (*ipoint).elevation));
+      }
+    }
+  }
+}
+
 
 
 

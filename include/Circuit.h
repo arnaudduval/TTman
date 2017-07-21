@@ -3,6 +3,7 @@
 
 #include <list>
 #include <GPSPoint.h>
+#include <GPXFile.h>
 
 
 struct Point
@@ -10,12 +11,23 @@ struct Point
   GPSPoint coords;
   double alt;
   double azimuth;
+  
+  Point(const GPSPoint&, const double&);
+
 };
 
 
 class Circuit : public std::list<Point>
 {
-  void ComputeAzimuth();
+  public :
+    // Default constructor
+    Circuit() : std::list<Point>() {};
+  
+    // Constructor form a GPX file
+    Circuit(const GPXFile&);
+  
+  private :
+    void ComputeAzimuth();
 };
 
 
