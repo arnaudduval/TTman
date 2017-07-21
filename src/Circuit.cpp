@@ -1,14 +1,7 @@
-#include <list>
+#include <Circuit.h>
+#include <string>
 #include <fstream>
 #include <stdexcept>
-#include <string>
-#include <cmath>
-#include <iostream>
-
-#include <GPSPoint.h>
-#include <GPXFile.h>
-#include <Circuit.h>
-
 
 
 

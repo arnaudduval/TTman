@@ -1,6 +1,9 @@
 #ifndef __CIRCUIT_H__
 #define __CIRCUIT_H__
 
+#include <list>
+#include <GPSPoint.h>
+
 
 struct Point
 {
