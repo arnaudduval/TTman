@@ -109,7 +109,10 @@ void GPXtrkseg::MakeLog(std::ostream& fout, const std::string prefix)
   fout << prefix << "This track segment contains " << trkpts.size() << " points :\n";
   for(auto ipt = trkpts.begin() ; ipt != trkpts.end() ; ++ipt)
   {
-    fout << prefix << "  " << (*ipt).timestamp << "  " << (*ipt).coords.lat << "  " << (*ipt).coords.lon << "  " << (*ipt).elevation << "\n";
+    fout << prefix << "  " << (*ipt).timestamp << "  " << (*ipt).coords.lat << "  " << (*ipt).coords.lon << "  " << (*ipt).elevation;
+    for (auto iExt = (*ipt).extensions.begin() ; iExt != (*ipt).extensions.end() ; ++iExt)
+      fout << " " << std::get<0>(*iExt) << "=" << std::get<1>(*iExt) ;
+    fout << "\n";
   }
 }
 
@@ -187,6 +190,27 @@ GPXwpt::GPXwpt(const xmlpp::Node* pNode)
     else if(pNode->get_name() == "time")
     {
       timestamp = singleValue;
+    }
+    else if(pNode->get_name() == "extensions")  // Read track point extensions (hearth rate, power, ...)
+    {
+      auto extensionsList = pNode->get_children();
+      for(auto iExtension = extensionsList.begin() ; iExtension != extensionsList.end() ; ++iExtension)
+      {
+        pNode = dynamic_cast<const xmlpp::Node*>(*iExtension);
+        if(pNode->get_name() == "TrackPointExtension")
+        {
+          auto tpExtensionsList = pNode->get_children();
+          for(auto itpxt = tpExtensionsList.begin() ; itpxt !=  tpExtensionsList.end() ; ++itpxt)
+          {
+            pNode = dynamic_cast<const xmlpp::Node*>(*itpxt);
+            if(pNode->get_children().size() != 0)
+            {
+              singleValue = ((xmlpp::TextNode*)(*((pNode->get_children()).begin())))->get_content();
+              extensions.push_back(std::make_tuple(pNode->get_name(), std::stod(singleValue)));
+            }
+          }
+        }
+      }
     }
   }
 }

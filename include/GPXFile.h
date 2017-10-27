@@ -8,17 +8,18 @@
 #include <GPSPoint.h>
 
 
-// A metadata is a string value associated to a key
+// @brief A metadata is a string value associated to a key
 using Metadata = std::tuple<std::string, std::string> ;
+using GPXtpxt = std::tuple<std::string, double>;
 
 
-
-// Structure defining a GPX waypoint
+// @brief Structure defining a GPX waypoint
 struct GPXwpt
 {
     std::string timestamp;
     double elevation;
     GPSPoint coords;
+    std::list<GPXtpxt> extensions;
     
     GPXwpt(const xmlpp::Node*);
 };
