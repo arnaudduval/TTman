@@ -1,5 +1,6 @@
 #include <string>
 #include <GPXFile.h>
+#include <TCXFile.h>
 #include <Circuit.h>
 
 int main(int argc, char *argv[])
@@ -22,6 +23,17 @@ int main(int argc, char *argv[])
         gpx.MakeLog("ReadGPX.log");
         
         Circuit c(gpx);
+      }
+    }
+    else if(std::string(argv[1]) == "--readtcx")
+    {
+      if(argc >=3)
+      {
+        std::string filePath(argv[2]);
+        TCXFile tcx(filePath);
+        //tcx.MakeLog("ReadTCX.log");
+        
+        //Circuit c(tcx);
       }
     }
   }
