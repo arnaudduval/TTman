@@ -27,9 +27,8 @@ using TCXTrack = std::list<TCXTrackPoint>;
 
 struct TCXLap
 {
-  
   std::string startTime;
-  double timeSeconds;
+  double totalTimeSeconds;
   double distanceMeters;
   double maximumSpeed;
   int calories;
@@ -44,12 +43,15 @@ struct TCXLap
   int steps;
   int averageWatts;
   int maxWatts;
+  
+  TCXLap(const xmlpp::Node*);
 };
 
 struct TCXActivity
 {
   std::string sport;
   std::string id;
+  std::list<TCXLap> laps;
   
   TCXActivity(const xmlpp::Node*);
 };
