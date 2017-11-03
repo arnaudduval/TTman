@@ -19,6 +19,7 @@ struct TCXTrackPoint
   double speed;
   int watts;
 
+  TCXTrackPoint(const xmlpp::Node*);
 };
 
 
