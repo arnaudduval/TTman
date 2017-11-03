@@ -1,6 +1,7 @@
 #include <TCXFile.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
+#include <fstream>
 
 TCXFile::TCXFile(std::string fileName)
 {
@@ -38,8 +39,6 @@ TCXFile::TCXFile(std::string fileName)
           }
         }
       }
-      std::cout << nodeName << "\n";
-      
     }
     else
     {
@@ -180,7 +179,7 @@ TCXLap::TCXLap(const xmlpp::Node* pNode)
       for(auto iterChildren = listChildren.begin() ; iterChildren != listChildren.end() ; ++iterChildren)
       {
         xmlpp::Node* trackNode = dynamic_cast<xmlpp::Node*>(*iterChildren);
-        if(trackNode->get_name() == "TrackPoint")
+        if(trackNode->get_name() == "Trackpoint")
         {
           TCXTrackPoint trackPoint(trackNode);
           track.push_back(trackPoint);
@@ -255,5 +254,41 @@ TCXTrackPoint::TCXTrackPoint(const xmlpp::Node* pNode)
       }
     }
   }
+}
+
+void TCXFile::RawWriteLaps(const std::string& filePath)
+{
+  std::ofstream file(filePath);
+  for(auto iterActivities = activities.begin() ; iterActivities != activities.end() ; ++iterActivities)
+  {
+    for(auto it = (*iterActivities).laps.begin() ; it != (*iterActivities).laps.end() ; ++it)
+    {
+      file << (*it).startTime << "\t" << (*it).totalTimeSeconds << "\t" << (*it).distanceMeters << "\t" << (*it).maximumSpeed << "\t" 
+           << (*it).calories << "\t" << (*it).averageHeartRateBPM << "\t" << (*it).maximumHeartRateBPM << "\t" << (*it).intensity << "\t"
+           << (*it).cadence << "\t" << (*it).triggerMethod << "\t" << (*it).averageSpeed << "\t" << (*it).maxBikeCadence << "\t"
+           << (*it).steps << "\t" << (*it).averageWatts << "\t" << (*it).maxWatts << "\n";
+    }
+  }
+  file.close();
+}
+
+void TCXFile::RawWritePoints(const std::string& filePath)
+{
+  std::ofstream file(filePath);
+  int iLap = 0;
+  for(auto iterActivities = activities.begin() ; iterActivities != activities.end() ; ++iterActivities)
+  {
+    for(auto iterLaps = (*iterActivities).laps.begin() ; iterLaps != (*iterActivities).laps.end() ; ++iterLaps)
+    {
+      ++iLap;
+      for(auto it = (*iterLaps).track.begin() ; it != (*iterLaps).track.end() ; ++it)
+      {
+        file << (*it).time << "\t" << (*it).coords.lat << "\t" << (*it).coords.lon << "\t" << (*it).altitudeMeters << "\t" 
+             << (*it).distanceMeters << "\t" << (*it).heartRateBPM << "\t" << (*it).cadence << "\t" << (*it).speed << "\t" 
+             << (*it).watts << "\t" << iLap << "\n";
+      }
+    }
+  }
+  file.close();
 }
 

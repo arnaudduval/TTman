@@ -12,6 +12,7 @@ struct Point
   double alt;
   double azimuth;
   
+  Point(){};
   Point(const GPSPoint&, const double&);
 
 };

@@ -60,7 +60,10 @@ struct TCXActivity
 struct TCXFile
 {
   std::list<TCXActivity> activities;
+  
   TCXFile(std::string fileName);
+  void RawWriteLaps(const std::string&);
+  void RawWritePoints(const std::string&);
 };
 
 

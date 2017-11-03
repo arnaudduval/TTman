@@ -23,7 +23,8 @@ double Azimuth(const GPSPoint& ptA, const GPSPoint& ptB)
   double d = ptB.lon*M_PI/180.;
   
   if((std::abs(a-b) < EPS_GPS)||(std::abs(c-d) < EPS_GPS))
-    throw std::runtime_error("Start and finish point are nearly the same.");
+    return 0.;
+    //throw std::runtime_error("Start and finish point are nearly the same.");
   
   double tc1;
   if( cos(a) < EPS_GPS)

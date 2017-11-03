@@ -2,6 +2,7 @@
 #include <GPXFile.h>
 #include <TCXFile.h>
 #include <Circuit.h>
+#include <Ride.h>
 
 int main(int argc, char *argv[])
 {
@@ -31,9 +32,13 @@ int main(int argc, char *argv[])
       {
         std::string filePath(argv[2]);
         TCXFile tcx(filePath);
-        //tcx.MakeLog("ReadTCX.log");
+        //tcx.RawWriteLaps("laps.log");
+        //tcx.RawWritePoints("points.log");
         
         //Circuit c(tcx);
+        
+        Ride r(tcx);
+        
       }
     }
   }
